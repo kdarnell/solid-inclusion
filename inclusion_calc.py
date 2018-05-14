@@ -178,13 +178,22 @@ class BarInclusion(object):
 
     def P_entrap_calc(self, P_incl, T_entrap, inclusion, host):
         obj_func = lambda x: self.mix_elastic(P_incl, x, T_entrap, inclusion, host)
-        P_entrapment = fsolve(obj_func, 0.001)
+        P_entrapment = fsolve(obj_func, 0.001)[0]
         return P_entrapment
 
     def T_entrap_calc(self, P_incl, P_entrap, inclusion, host):
         obj_func = lambda x: self.mix_elastic(P_incl, P_entrap, x, inclusion, host)
-        T_entrapment = fsolve(obj_func, 273)
+        T_entrapment = fsolve(obj_func, 273)[0]
         return T_entrapment
+
+
+    def isobar_calc(self, T_range, P_range, inclusion, host):
+        isobar_results = []
+        T_use, P_use = np.meshgrid(T_range, P_range)
+        for T_entrap, P_incl in zip(T_use.flatten(), P_use.flatten()):
+            isobar_results.append(self.P_entrap_calc(P_incl, T_entrap, inclusion, host))
+        return np.asarray(isobar_results).reshape(np.shape(T_use)), T_use, P_use
+
 
 
 
