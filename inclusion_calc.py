@@ -100,13 +100,14 @@ class BarInclusion(object):
             elif df_p['thermal_eos'][0] == 2:
                 molar_volume_thermal = df_p['v0'] * (1.0 + df_p['alpha0']*1e-5 * (T - 298.15))
                 molar_volume = molar_volume_thermal * (1.0 - a * (1.0 - (1.0 + b * P)** (-c)))
-                pgpa = P / 10
-                crit_temp_P = df_p['crit_temp'] + 270.0 * pgpa - 10.0 * pgpa**2
-                if T > crit_temp_P[0]:
-                    Ev = aTH * np.abs((crit_temp_P - T))**beta_high
-                else:
-                    Ev = aT * np.abs((crit_temp_P - T))**beta
-                molar_volume = molar_volume * (1.0 + Ev)
+                if df_p['End-member'] == 'Quartz':
+                    pgpa = P / 10
+                    crit_temp_P = df_p['crit_temp'] + 270.0 * pgpa - 10.0 * pgpa**2
+                    if T > crit_temp_P[0]:
+                        Ev = aTH * np.abs((crit_temp_P - T))**beta_high
+                    else:
+                        Ev = aT * np.abs((crit_temp_P - T))**beta
+                    molar_volume = molar_volume * (1.0 + Ev)
             self.calc_master[phase_proper][(P, T)] = molar_volume[0]
         return self.calc_master[phase_proper][(P, T)]
 
