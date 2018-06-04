@@ -3,4 +3,5 @@ dependencies:
   - numpy
   - pandas
   - scipy
-
+  - pip:
+    - xlrd
