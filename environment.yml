@@ -1,5 +1,6 @@
 name: solidinclusion
-channels:
-  - defaults
-prefix: /anaconda3/envs/solidinclusion
+dependencies:
+  - numpy
+  - pandas
+  - scipy
 
