@@ -3,5 +3,6 @@ dependencies:
   - numpy
   - pandas
   - scipy
+  - matplotlib
   - pip:
     - xlrd
